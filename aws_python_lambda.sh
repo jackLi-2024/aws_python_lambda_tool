@@ -31,7 +31,7 @@ elif [ "$command" == "-up" ];then
 		echo "RUN: rm -rf function.zip"
         rm -rf function.zip
         echo "RUN: zip -r function.zip * ..."
-        zip --exclude python.zip --exclude zip_to_aws_serverless.sh -r function.zip *
+        zip --exclude python.zip --exclude aws_python_lambda.sh -r function.zip *
         echo "RUN: aws lambda update-function-code --function-name $2 --zip-file fileb://function.zip"
         aws lambda update-function-code --function-name $2 --zip-file fileb://function.zip
         echo "DONE!"
