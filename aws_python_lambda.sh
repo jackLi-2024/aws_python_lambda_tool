@@ -23,22 +23,17 @@ elif [ "$command" == "-zip" ];then
         echo "zip -r python.zip ./python"
         zip -r python.zip ./python;
         echo "DONE!"
-elif [ "$command" == "-zip" ];then
-        if [ ! -f "requirements.txt" ];then
-                echo "ERROR: 对不起你需要给一个requirements.txt"
-                exit;
-        fi
-        echo "RUN: mkdir -p python"
-        mkdir -p python;
-        if [ "$pip_version" == "" ];then
-                pip_version="pip3";
-        fi
-        echo "RUN: ${pip_version} install --target python -r requirements.txt ${params}"
-        ${pip_version} install --target python -r requirements.txt ${params};
-        echo "RUN: rm -rf python.zip"
-        rm -rf python.zip;
-        echo "zip -r python.zip ./python"
-        zip -r python.zip ./python;
+elif [ "$command" == "-up" ];then
+		if [ "$2" == "" ];then
+			echo "请给第二个参数：aws的function函数名";
+			exit;
+		fi
+		echo "RUN: rm -rf function.zip"
+        rm -rf function.zip
+        echo "RUN: zip -r function.zip * ..."
+        zip --exclude python.zip --exclude zip_to_aws_serverless.sh -r function.zip *
+        echo "RUN: aws lambda update-function-code --function-name $2 --zip-file fileb://function.zip"
+        aws lambda update-function-code --function-name $2 --zip-file fileb://function.zip
         echo "DONE!"
 
 else
